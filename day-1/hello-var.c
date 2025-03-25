@@ -2,8 +2,8 @@
 
 int main(void)
 {
-    // Add your name here
-    char *name = "World";
+    // Change your name here
+    char name[] = "World";
     
     printf("Hello, %s!\n", name);
 
