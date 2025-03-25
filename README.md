@@ -29,7 +29,7 @@ To clone this repository to your local machine, follow these steps:
 1. Navigate to the specific day or folder containing the C files
 
    ```
-   cd Day\ 1
+   cd day-1
    ```
 
 2. Compile the C file using GCC
