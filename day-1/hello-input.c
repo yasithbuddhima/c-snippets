@@ -1,12 +1,17 @@
 #include <stdio.h>
 
 int main() {
-    char name[50];  
+    char message[] = "Hello, World!";
+    char userChar;
 
-    printf("Enter your name: ");
-    scanf("%49s", name);  
+    printf("%s\n", message);
 
-    printf("Hello, %s!\n", name);
-    
+    printf("Press any key to continue: ");
+    userChar = getchar();
+
+    printf("You pressed: ");
+    putchar(userChar);
+    printf("\n");
+
     return 0;
 }
