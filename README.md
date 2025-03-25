@@ -1,106 +1,178 @@
 # C Snippets Repository
 
-## Repository Cloning
+## Repository Setup
 
-To clone this repository to your local machine, follow these steps:
+### Cloning the Repository
 
-1. Open your terminal or command prompt
-2. Navigate to the directory where you want to clone the repository
-3. Run the following command:
-   ```
-   git clone https://github.com/HameezExE/c-snippets.git
-   ```
-4. Change into the repository directory:
-   ```
-   cd c-snippets
-   ```
+```powershell
+# Navigate to your development directory
+cd ~/Documents/Code
 
-## Compiling and Running C Files
+# Clone repository
+git clone https://github.com/HameezExE/c-snippets.git
 
-### Prerequisites
+# Enter repository
+cd c-snippets
+```
 
-- Ensure you have GCC (GNU Compiler Collection) installed on your system
+## Development Environment Setup
 
-#### Windows Installation Options:
+### Prerequisites Installation
 
-1. **Using Chocolatey** (Recommended):
+#### Windows (PowerShell Admin Recommended)
 
-   - First, install Chocolatey (package manager for Windows):
-     ```
-     @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
-     ```
-   - Then install MinGW:
-     ```
-     choco install mingw
-     ```
+```powershell
+# 1. Install Chocolatey package manager
+Set-ExecutionPolicy Bypass -Scope CurrentUser -Force
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072
+iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-2. Alternative Methods:
+# 2. Install development tools
+choco install mingw git vscode -y
 
-   - Install MinGW manually from official sources
-   - Use Windows Subsystem for Linux (WSL)
+# 3. Verify installations
+choco --version
+gcc --version
+git --version
+code --version
+```
 
-3. For macOS: Install via Homebrew
+#### macOS/Linux
 
-   ```
-   brew install gcc
-   ```
+```bash
+# macOS using Homebrew
+brew install gcc
 
-4. For Linux: Install via package manager
-   ```
-   sudo apt-get install gcc
-   ```
+# Debian/Ubuntu
+sudo apt-get install build-essential
+```
 
-### Compilation and Execution
+### Environment Configuration
 
-1. Navigate to the specific day or folder containing the C files
+```powershell
+# Refresh PATH in current session
+$env:PATH = [System.Environment]::GetEnvironmentVariable("Path", "Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path", "User")
 
-   ```
-   cd day-1
-   ```
+# Verify critical paths in PATH
+$env:PATH -split ';' | Where-Object { $_ -like "*mingw64\bin*" -or $_ -like "*Git\bin*" -or $_ -like "*VS Code*" }
+```
 
-2. Compile the C file using GCC
+## Compilation Guide
 
-   - For hello.c:
-     ```
-     gcc hello.c -o hello
-     ```
-   - For hello-var.c:
-     ```
-     gcc hello-var.c -o hello-var
-     ```
-   - For hello-input.c:
-     ```
-     gcc hello-input.c -o hello-input
-     ```
+### Basic Compilation
 
-3. Run the compiled executable
-   - For hello:
-     ```
-     ./hello
-     ```
-   - For hello-var:
-     ```
-     ./hello-var
-     ```
-   - For hello-input:
-     ```
-     ./hello-input
-     ```
+```powershell
+# Navigate to target directory
+cd day-1
 
-### Notes
+# Compile with output naming
+gcc hello.c -o hello -Wall
 
-- The `-o` flag specifies the output executable name
-- On Windows, use `hello.exe` instead of `./hello`
-- For hello-input, you'll be prompted to enter a name when running the program
+# Execute program
+.\hello.exe  # Windows
+./hello      # macOS/Linux
+```
+
+### Advanced Compilation Options
+
+```powershell
+# Debug build
+gcc -g hello-input.c -o debug_hello
+
+# Optimized build
+gcc -O2 hello-var.c -o optimized_hello
+
+# Multi-file compilation
+gcc main.c helper.c -o combined_program
+
+# Create object file only
+gcc -c module.c
+```
+
+## Workflow Tips
+
+### PowerShell Navigation
+
+```powershell
+# Linux-style directory operations
+ls          # List contents
+pwd         # Show current path
+mkdir src   # Create directory
+touch new.c # Create file (if alias set)
+
+# Path navigation
+cd ..       # Move up
+cd ~        # Home directory
+cd \        # Root directory
+```
+
+### Common Flags Reference
+
+| Flag    | Description                   | Example                        |
+| ------- | ----------------------------- | ------------------------------ |
+| `-o`    | Specify output filename       | `gcc input.c -o output`        |
+| `-g`    | Include debugging information | `gcc -g debug.c -o debug`      |
+| `-O2`   | Enable optimization level 2   | `gcc -O2 fast.c -o fast`       |
+| `-Wall` | Show all warnings             | `gcc -Wall strict.c -o strict` |
 
 ## Troubleshooting
 
-- Ensure you're in the correct directory before compiling
-- Check that GCC is properly installed and configured in your system PATH
-- Verify file permissions if you encounter any execution issues
-- After installing MinGW via Chocolatey, you may need to restart your terminal or IDE
-- Ensure Chocolatey installation was successful by running `choco -v`
+### Common Fixes
 
-## Contributing
+```powershell
+# If MinGW not detected:
+[System.Environment]::SetEnvironmentVariable("PATH", $env:PATH + ";C:\tools\mingw64\bin", [System.EnvironmentVariableTarget]::User)
 
-Feel free to contribute additional C snippets or improvements to the repository!
+# Verify compiler detection
+where.exe gcc
+
+# Check file existence
+Test-Path hello.c
+
+# Clean build artifacts
+rm *.exe, *.o
+```
+
+### Diagnostic Commands
+
+```powershell
+# Check Chocolatey installation
+choco list --local-only
+
+# Verify PATH configuration
+$env:PATH -split ';' | Select-String -Pattern 'mingw|git|code'
+
+# Test fresh PowerShell session
+pwsh -NoProfile -Command "gcc --version"
+```
+
+## Contribution Guidelines
+
+1. Clone and create feature branch:
+
+```powershell
+git checkout -b feature/new-snippet
+```
+
+2. Test compilation with warnings enabled:
+
+```powershell
+gcc -Wall new_feature.c -o test_feature
+```
+
+3. Verify execution:
+
+```powershell
+.\test_feature.exe
+```
+
+4. Commit and push changes:
+
+```powershell
+git commit -m "feat: add new array example"
+git push origin feature/new-snippet
+```
+
+**Note for Windows Users:** PowerShell supports most Linux-style commands. Use `Get-Alias` to see command mappings. For PATH changes to persist, add through System Properties or use `[Environment]::SetEnvironmentVariable()` with `User`/`Machine` targets.
+
+**Performance Tip:** Combine compilation steps: `gcc -O3 -Wall -o optimized src1.c src2.c`
