@@ -20,9 +20,35 @@ To clone this repository to your local machine, follow these steps:
 ### Prerequisites
 
 - Ensure you have GCC (GNU Compiler Collection) installed on your system
-  - For Windows: Install MinGW or use Windows Subsystem for Linux (WSL)
-  - For macOS: Install via Homebrew (`brew install gcc`)
-  - For Linux: Install via package manager (e.g., `sudo apt-get install gcc`)
+
+#### Windows Installation Options:
+
+1. **Using Chocolatey** (Recommended):
+
+   - First, install Chocolatey (package manager for Windows):
+     ```
+     @"%SystemRoot%\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -InputFormat None -ExecutionPolicy Bypass -Command "[System.Net.ServicePointManager]::SecurityProtocol = 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))" && SET "PATH=%PATH%;%ALLUSERSPROFILE%\chocolatey\bin"
+     ```
+   - Then install MinGW:
+     ```
+     choco install mingw
+     ```
+
+2. Alternative Methods:
+
+   - Install MinGW manually from official sources
+   - Use Windows Subsystem for Linux (WSL)
+
+3. For macOS: Install via Homebrew
+
+   ```
+   brew install gcc
+   ```
+
+4. For Linux: Install via package manager
+   ```
+   sudo apt-get install gcc
+   ```
 
 ### Compilation and Execution
 
@@ -72,6 +98,8 @@ To clone this repository to your local machine, follow these steps:
 - Ensure you're in the correct directory before compiling
 - Check that GCC is properly installed and configured in your system PATH
 - Verify file permissions if you encounter any execution issues
+- After installing MinGW via Chocolatey, you may need to restart your terminal or IDE
+- Ensure Chocolatey installation was successful by running `choco -v`
 
 ## Contributing
 
