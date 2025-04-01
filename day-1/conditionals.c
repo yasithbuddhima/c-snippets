@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 int main() {
     char choice;
     
@@ -17,7 +15,7 @@ int main() {
     } else if (choice == 'N' && choice == 'n') {
         printf("Maybe just have a light snack or a drink.\n");
     } else {
-        printf("Invalid choice! Please enter H or N.\n");
+        printf("Invalid choice! Please enter H or N.\n")
     }
     
     // Goodbye message
