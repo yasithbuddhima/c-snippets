@@ -15,27 +15,42 @@ jobs:
           fetch-depth: 0 # Get all branches
 
       - name: Check if branch is not 'main'
-        id: branch-check
         run: |
           CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD)
           if [[ "$CURRENT_BRANCH" == "main" ]]; then
-            echo "::error::You must create a branch!"
-            echo "SCORE=0" >> "$GITHUB_ENV"
+            echo "::error:: ❌ You must create a branch!"
+            echo "BRANCH_SCORE=0" >> $GITHUB_ENV
           else
-            echo "SCORE=50" >> "$GITHUB_ENV"
+            echo "✅ Branch created correctly (+50 Marks)"
+            echo "BRANCH_SCORE=50" >> $GITHUB_ENV
           fi
 
-      - name: Check if file is filled
-        id: file-check
+      - name: Check if file is filled correctly
         run: |
-          if grep -q "<your-name>" c-snippets/day-1/home-work/home-work.txt || \
-             grep -q "<city>" c-snippets/day-1/home-work/home-work.txt || \
-             grep -q "<computer-science OR physical-science>" c-snippets/day-1/home-work/home-work.txt; then
-            echo "::error::You must fill the required details!"
+          FILE_PATH="day-1/home-work/home-work.txt"
+          if grep -q "<your-name>" "$FILE_PATH" || \
+             grep -q "<city>" "$FILE_PATH" || \
+             grep -q "<computer-science OR physical-science>" "$FILE_PATH"; then
+            echo "::error:: ❌ You must replace placeholders with actual values!"
+            echo "FILE_SCORE=0" >> $GITHUB_ENV
           else
-            SCORE=$((SCORE + 50))
-            echo "SCORE=$SCORE" >> "$GITHUB_ENV"
+            echo "✅ Homework file filled correctly (+50 Marks)"
+            echo "FILE_SCORE=50" >> $GITHUB_ENV
           fi
 
-      - name: Print Final Score
-        run: "echo 'Final Score: $SCORE'"
+      - name: Calculate Final Score
+        run: |
+          BRANCH_SCORE=${{ env.BRANCH_SCORE }}
+          FILE_SCORE=${{ env.FILE_SCORE }}
+          TOTAL_SCORE=$((BRANCH_SCORE + FILE_SCORE))
+
+          echo "============================="
+          echo " 📝 Git Homework Evaluation"
+          echo "============================="
+          echo "📌 Branch Check: $BRANCH_SCORE / 50"
+          echo "📌 File Check  : $FILE_SCORE / 50"
+          echo "-----------------------------"
+          echo "🏆 Final Score : $TOTAL_SCORE / 100"
+          echo "============================="
+
+          echo "TOTAL_SCORE=$TOTAL_SCORE" >> $GITHUB_ENV
