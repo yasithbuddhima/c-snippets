@@ -28,9 +28,9 @@ jobs:
       - name: Check if file is filled
         id: file-check
         run: |
-          if grep -q "<your-name>" c-snippets/Day-3/home-work/home-work.txt || \
-             grep -q "<city>" c-snippets/Day-3/home-work/home-work.txt || \
-             grep -q "<computer-science OR physical-science>" c-snippets/Day-3/home-work/home-work.txt; then
+          if grep -q "<your-name>" c-snippets/day-1/home-work/home-work.txt || \
+             grep -q "<city>" c-snippets/day-1/home-work/home-work.txt || \
+             grep -q "<computer-science OR physical-science>" c-snippets/day-1/home-work/home-work.txt; then
             echo "::error::You must fill the required details!"
           else
             SCORE=$((SCORE + 50))
