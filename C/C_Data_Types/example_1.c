@@ -5,4 +5,4 @@ int main() {
     printf("small: %d, big: %ld\n", small, big);
     return 0;
 }
-//explain
+//explain the difference between int and long
